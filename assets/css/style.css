@@ -1,14 +1,30 @@
+header{
+    background-image: linear-gradient(to right, rgb(64, 44, 243), rgb(50, 8, 85));
+    color: white;
+    
+}
+
+header p{
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+}
+
+.card-body{
+    margin: 5px 0;
+    padding: 0;
+}
 
 .city{
-    margin: 10px 0;
-    padding: 3px 20px;
+    padding: 0 13px;
 }
 
 .submitBtn{
-    padding: 2px 83px;
+    padding: 2px 80px;
     background-color: lightblue;
     text-align: center;
     text-decoration: none;
     border-radius: 4px;
-
+    margin: 10px 0;
 }
