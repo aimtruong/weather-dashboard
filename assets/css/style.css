@@ -28,3 +28,15 @@ header p{
     border-radius: 4px;
     margin: 10px 0;
 }
+
+.fiveDaysContainer{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.day{
+    color: white;
+    margin: 5px;
+    padding: 10px;
+    font-size: smaller;
+}
