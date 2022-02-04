@@ -95,7 +95,21 @@ var displayCurrentWeather = function(weather, searchTerm){
             humidity.textContent = "Humidity: " + cityName.humidity + "%";
 
         var uvIndex = document.createElement("p");
-            uvIndex.textContent = "UV Index: " + cityName.uvi;
+            var UVI = document.createElement("p");
+                UVI.textContent = cityName.uvi;
+
+                if(cityName.uvi >= 0 && cityName.uvi <= 2){
+                    UVI.style = "border-radius: 1px; margin-right: 550px; background-color: green; text-align: center; color: white";
+                }
+                else if(cityName.uvi >= 3 && cityName.uvi <= 5){
+                    UVI.style = "border-radius: 1px; margin-right: 550px; background-color: yellow; text-align: center; color: white";
+                }
+                else if(cityName.uvi > 5){
+                    UVI.style = "border-radius: 1px; margin-right: 550px; background-color: red; text-align: center; color: white";
+                }
+
+            uvIndex.textContent = "UV Index: ";
+            uvIndex.appendChild(UVI);            
 
     // add padding for looks
     citySearchTerm.setAttribute("style", "padding: 10px");
@@ -106,7 +120,7 @@ var displayCurrentWeather = function(weather, searchTerm){
     weatherContainerEl.appendChild(temp);
     weatherContainerEl.appendChild(wind);
     weatherContainerEl.appendChild(humidity);
-    weatherContainerEl.append(uvIndex);
+    weatherContainerEl.appendChild(uvIndex);
 
     // append container to the dom
     currentWeatherEl.appendChild(weatherContainerEl);
