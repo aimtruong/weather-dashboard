@@ -59,12 +59,31 @@ var formSubmitHandler = function(event){
 };
 
 var displayCurrentWeather = function(weather, searchTerm){
-    weatherContainerEl.textContent = "";
-    citySearchTerm.textContent = searchTerm + " (" + moment().format("MM[/]DD[/]YYYY") + ")";
-    
     // easy format to find certain weather
     cityName = weather.current;
+    var weatherIcon = document.createElement("i");
 
+        // add class to turn weatherIcon into an img
+        switch(cityName.weather[0].main){
+            case "Clouds":
+                weatherIcon.classList = "bi bi-cloud";
+                break;
+            case "Rain":
+                weatherIcon.classList = "bi bi-cloud-drizzle";
+                break;
+            case "Snow":
+                weatherIcon.classList = "bi bi-cloud-snow";
+                break;
+            case "Clear":
+                weatherIcon.classList = "bi bi-brightness-low";
+                break;
+            case "Fog":
+                weatherIcon.classList = "bi bi-cloud-fog";
+        }
+
+    weatherContainerEl.textContent = "";
+    citySearchTerm.textContent = searchTerm + " (" + moment().format("MM[/]DD[/]YYYY") + ") ";
+    
         // temp, wind, humidity, UV index
         var temp = document.createElement("p");
             temp.textContent = "Temp: " + cityName.temp + "°F";
@@ -78,7 +97,12 @@ var displayCurrentWeather = function(weather, searchTerm){
         var uvIndex = document.createElement("p");
             uvIndex.textContent = "UV Index: " + cityName.uvi;
 
+    // add padding for looks
+    citySearchTerm.setAttribute("style", "padding: 10px");
+    weatherContainerEl.setAttribute("style", "padding: 10px");
+
     // append to container
+    citySearchTerm.appendChild(weatherIcon);
     weatherContainerEl.appendChild(temp);
     weatherContainerEl.appendChild(wind);
     weatherContainerEl.appendChild(humidity);
@@ -107,6 +131,7 @@ var displayFiveDays = function(weather, searchTerm){
     var wind = [];
     var humidity = [];
     var dayDate = [];
+    var weatherIcon = [];
 
     for(var i = 0; i < fiveD.length; i++){
         // variables for weather types
@@ -124,10 +149,29 @@ var displayFiveDays = function(weather, searchTerm){
         dayDate[i].textContent = moment(now, "MM[/]DD[/]YYYY").add(i+1, "days").format("MM[/]DD[/]YYYY");
         dayDate[i].setAttribute("style", "font-weight: bold");
 
+        // weather icons
+        weatherIcon[i] = document.createElement("i");
+        switch(fiveD[i].weather[0].main){
+            case "Clouds":
+                weatherIcon[i].classList = "bi bi-cloud";
+                break;
+            case "Rain":
+                weatherIcon[i].classList = "bi bi-cloud-drizzle";
+                break;
+            case "Snow":
+                weatherIcon[i].classList = "bi bi-cloud-snow";
+                break;
+            case "Clear":
+                weatherIcon[i].classList = "bi bi-brightness-low";
+                break;
+            case "Fog":
+                weatherIcon[i].classList = "bi bi-cloud-fog";
+        }
+
         // append each
         switch (i){
             case 0:
-                firstDayEl.appendChild(dayDate[0]);
+                firstDayEl.append(dayDate[0], weatherIcon[0]);
                 firstDayEl.appendChild(temp[0]);
                 firstDayEl.appendChild(wind[0]);
                 firstDayEl.appendChild(humidity[0]);
@@ -136,7 +180,7 @@ var displayFiveDays = function(weather, searchTerm){
                 displayWeather.appendChild(fiveDaysContainer);
                 break;
             case 1:
-                secondDayEl.appendChild(dayDate[1]);
+                secondDayEl.append(dayDate[1], weatherIcon[1]);
                 secondDayEl.appendChild(temp[1]);
                 secondDayEl.appendChild(wind[1]);
                 secondDayEl.appendChild(humidity[1]);
@@ -145,7 +189,7 @@ var displayFiveDays = function(weather, searchTerm){
                 displayWeather.appendChild(fiveDaysContainer);
                 break;
             case 2:
-                thirdDayEl.appendChild(dayDate[2]);
+                thirdDayEl.append(dayDate[2], weatherIcon[2]);
                 thirdDayEl.appendChild(temp[2]);
                 thirdDayEl.appendChild(wind[2]);
                 thirdDayEl.appendChild(humidity[2]);
@@ -154,7 +198,7 @@ var displayFiveDays = function(weather, searchTerm){
                 displayWeather.appendChild(fiveDaysContainer);
                 break;
             case 3:
-                fourthDayEl.appendChild(dayDate[3]);
+                fourthDayEl.append(dayDate[3], weatherIcon[3]);
                 fourthDayEl.appendChild(temp[3]);
                 fourthDayEl.appendChild(wind[3]);
                 fourthDayEl.appendChild(humidity[3]);
@@ -163,7 +207,7 @@ var displayFiveDays = function(weather, searchTerm){
                 displayWeather.appendChild(fiveDaysContainer);
                 break;
             case 4:
-                fifthDayEl.appendChild(dayDate[4]);
+                fifthDayEl.append(dayDate[4], weatherIcon[4]);
                 fifthDayEl.appendChild(temp[4]);
                 fifthDayEl.appendChild(wind[4]);
                 fifthDayEl.appendChild(humidity[4]);
@@ -174,7 +218,8 @@ var displayFiveDays = function(weather, searchTerm){
         }
     }
         
-}
+};
+
 
 
 cityFormEl.addEventListener("submit", formSubmitHandler);
