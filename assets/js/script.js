@@ -10,6 +10,19 @@ var currentWeatherEl = document.querySelector(".currentWeather");
 var citySearchTerm = document.querySelector("#city-search");
 var weatherContainerEl = document.querySelector("#weather-container");
 
+// subtitle for 
+var forecast = document.createElement("p");
+
+
+// for five days additions
+var now = moment().format("MM[/]DD[/]YYYY");
+
+var temp = [];
+var wind = [];
+var humidity = [];
+var dayDate = [];
+var weatherIcon = [];
+
 // five days weather container to hold all days
 var fiveDaysContainer = document.querySelector(".fiveDaysContainer");
 var firstDayEl = document.querySelector("#firstDayEl");
@@ -29,13 +42,13 @@ var getWeather = function(city){
                 var cityLat = data[i].lat;
                 var cityLon = data[i].lon;
 
-                // api to find city's weather
-                var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,alerts&appid=c48becc83b15142c299e329c55a89278";
+                // api to find city's weather **include &&units=imperial for fahrenheit
+                var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,alerts&appid=c48becc83b15142c299e329c55a89278&&units=imperial";
                 fetch(apiUrl).then(function(response){
                     response.json().then(function(data){
                         // gets current and next 5 days weather
                         displayCurrentWeather(data, city);
-                        displayFiveDays(data, city);
+                        displayFiveDays(data);
                     });
                 });
             }
@@ -61,24 +74,24 @@ var formSubmitHandler = function(event){
 var displayCurrentWeather = function(weather, searchTerm){
     // easy format to find certain weather
     cityName = weather.current;
-    var weatherIcon = document.createElement("i");
+    var currentWeatherIcon = document.createElement("i");
 
         // add class to turn weatherIcon into an img
         switch(cityName.weather[0].main){
             case "Clouds":
-                weatherIcon.classList = "bi bi-cloud";
+                currentWeatherIcon.classList = "bi bi-cloud";
                 break;
             case "Rain":
-                weatherIcon.classList = "bi bi-cloud-drizzle";
+                currentWeatherIcon.classList = "bi bi-cloud-drizzle";
                 break;
             case "Snow":
-                weatherIcon.classList = "bi bi-cloud-snow";
+                currentWeatherIcon.classList = "bi bi-cloud-snow";
                 break;
             case "Clear":
-                weatherIcon.classList = "bi bi-brightness-low";
+                currentWeatherIcon.classList = "bi bi-brightness-low";
                 break;
             case "Fog":
-                weatherIcon.classList = "bi bi-cloud-fog";
+                currentWeatherIcon.classList = "bi bi-cloud-fog";
         }
 
     weatherContainerEl.textContent = "";
@@ -98,29 +111,30 @@ var displayCurrentWeather = function(weather, searchTerm){
             var UVI = document.createElement("p");
                 UVI.textContent = cityName.uvi;
 
-                if(cityName.uvi >= 0 && cityName.uvi <= 2){
-                    UVI.style = "border-radius: 1px; margin-right: 550px; background-color: green; text-align: center; color: white";
+                if(cityName.uvi >= 0 && cityName.uvi < 2){
+                    UVI.style = "border-radius: 1px; margin-left: 5px; background-color: green; text-align: center; color: white; padding-left: 10px; padding-right: 10px";
                 }
-                else if(cityName.uvi >= 3 && cityName.uvi <= 5){
-                    UVI.style = "border-radius: 1px; margin-right: 550px; background-color: yellow; text-align: center; color: white";
+                else if(cityName.uvi >= 2 && cityName.uvi < 5){
+                    UVI.style = "border-radius: 1px; margin-left: 5px; background-color: yellow; text-align: center; color: black; padding-left: 10px; padding-right: 10px";
                 }
-                else if(cityName.uvi > 5){
-                    UVI.style = "border-radius: 1px; margin-right: 550px; background-color: red; text-align: center; color: white";
+                else if(cityName.uvi >= 5){
+                    UVI.style = "border-radius: 1px; margin-left: 5px; background-color: red; text-align: center; color: white; padding-left: 10px; padding-right: 10px";
                 }
 
-            uvIndex.textContent = "UV Index: ";
-            uvIndex.appendChild(UVI);            
+            uvIndex.textContent = "UV Index:";
+            uvIndex.setAttribute("style", "display: flex");
+            uvIndex.appendChild(UVI);
 
     // add padding for looks
     citySearchTerm.setAttribute("style", "padding: 10px");
     weatherContainerEl.setAttribute("style", "padding: 10px");
 
     // append to container
-    citySearchTerm.appendChild(weatherIcon);
+    citySearchTerm.appendChild(currentWeatherIcon);
     weatherContainerEl.appendChild(temp);
     weatherContainerEl.appendChild(wind);
     weatherContainerEl.appendChild(humidity);
-    weatherContainerEl.appendChild(uvIndex);
+    weatherContainerEl.append(uvIndex);
 
     // append container to the dom
     currentWeatherEl.appendChild(weatherContainerEl);
@@ -128,24 +142,14 @@ var displayCurrentWeather = function(weather, searchTerm){
 
 };
 
-var displayFiveDays = function(weather, searchTerm){
+var displayFiveDays = function(weather){
     // element for easy access
     var fiveD = weather.daily;
     console.log(fiveD);
 
     // 5-day forecast element
-    var forecast = document.createElement("p");
-        forecast.innerHTML = "<br> <strong> 5-Day Forecast: <strong>";
-        displayWeather.appendChild(forecast);
-
-    // for five days additions
-    var now = moment().format("MM[/]DD[/]YYYY");
-
-    var temp = [];
-    var wind = [];
-    var humidity = [];
-    var dayDate = [];
-    var weatherIcon = [];
+    forecast.innerHTML = "<br> <strong> 5-Day Forecast: <strong>";
+    displayWeather.appendChild(forecast);
 
     for(var i = 0; i < fiveD.length; i++){
         // variables for weather types
