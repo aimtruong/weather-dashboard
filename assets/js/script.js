@@ -154,23 +154,26 @@ var displayCurrentWeather = function(weather, searchTerm){
 
 // display five days weather
 var displayFiveDays = function(weather){
-    // remove previous city weathers
-    temp = [];
-    wind = [];
-    humidity = [];
-    dayDate = [];
-    weatherIcon = [];
-
+    
     // element for easy access
     var fiveD = weather.daily;
-    console.log(fiveD);
+
+    // remove previous city weathers
+    if(fiveDaysContainer.children.length > 0){
+        firstDayEl.textContent = "";
+        secondDayEl.textContent = "";
+        thirdDayEl.textContent = "";
+        fourthDayEl.textContent = "";
+        fifthDayEl.textContent = "";
+    };
+
 
     // 5-day forecast element
     forecast.innerHTML = "<br> <strong> 5-Day Forecast: <strong>";
     displayWeather.appendChild(forecast);
-
     
-    for(var i = 0; i < fiveD.length; i++){
+    for(var i = 0; i < 6; i++){
+        
         // variables for weather types
         temp[i] = document.createElement("p");
         temp[i].textContent = "Temp: " + fiveD[i].temp.day + "°F";
@@ -185,6 +188,7 @@ var displayFiveDays = function(weather){
         dayDate[i] = document.createElement("p");
         dayDate[i].textContent = moment(now, "MM[/]DD[/]YYYY").add(i+1, "days").format("MM[/]DD[/]YYYY");
         dayDate[i].setAttribute("style", "font-weight: bold");
+
         // weather icons
         weatherIcon[i] = document.createElement("i");
         switch(fiveD[i].weather[0].main){
