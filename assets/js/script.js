@@ -193,19 +193,19 @@ var displayFiveDays = function(weather){
         weatherIcon[i] = document.createElement("i");
         switch(fiveD[i].weather[0].main){
             case "Clouds":
-                weatherIcon[i].classList = "bi bi-cloud";
+                weatherIcon[i].classList = "bi bi-cloud-fill";
                 break;
             case "Rain":
-                weatherIcon[i].classList = "bi bi-cloud-drizzle";
+                weatherIcon[i].classList = "bi bi-cloud-rain-fill";
                 break;
             case "Snow":
-                weatherIcon[i].classList = "bi bi-snow";
+                weatherIcon[i].classList = "bi bi-cloud-snow-fill";
                 break;
             case "Clear":
-                weatherIcon[i].classList = "bi bi-brightness-low";
+                weatherIcon[i].classList = "bi bi-brightness-high-fill";
                 break;
             case "Fog":
-                weatherIcon[i].classList = "bi bi-cloud-fog";
+                weatherIcon[i].classList = "bi bi-cloud-fog-fill";
         }
 
         // append each
