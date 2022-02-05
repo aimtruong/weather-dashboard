@@ -1,8 +1,15 @@
 
-// city search form containers
+// city search form container
 var cityFormEl = document.querySelector(".card-body");
 var cityInputEl = document.querySelector(".city");
+var previousCityBtns = document.querySelector(".previous-cities");
 
+// line between search button and previous city buttons
+var lineBreak = document.createElement("hr");
+    lineBreak.setAttribute("style", "height: 2px; background-color: gray; margin-right: 80px;");
+    previousCityBtns.appendChild(lineBreak);
+
+// to hold weather containers
 var displayWeather = document.querySelector(".display-weather");
 
 // current weather containers
@@ -10,9 +17,8 @@ var currentWeatherEl = document.querySelector(".currentWeather");
 var citySearchTerm = document.querySelector("#city-search");
 var weatherContainerEl = document.querySelector("#weather-container");
 
-// subtitle for 
+// subtitle for five-days weather
 var forecast = document.createElement("p");
-
 
 // for five days additions
 var now = moment().format("MM[/]DD[/]YYYY");
@@ -31,7 +37,7 @@ var thirdDayEl = document.querySelector("#thirdDayEl");
 var fourthDayEl = document.querySelector("#fourthDayEl");
 var fifthDayEl = document.querySelector("#fifthDayEl");
 
-
+// get city's weather info from api function
 var getWeather = function(city){
     // api to find city's lat and lon coords
     var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&appid=c48becc83b15142c299e329c55a89278";
@@ -49,6 +55,7 @@ var getWeather = function(city){
                         // gets current and next 5 days weather
                         displayCurrentWeather(data, city);
                         displayFiveDays(data);
+                        saveCity(data, city);
                     });
                 });
             }
@@ -56,6 +63,7 @@ var getWeather = function(city){
     });
 };
 
+// reads input and goes through getWeather()
 var formSubmitHandler = function(event){
     event.preventDefault();
     
@@ -71,6 +79,7 @@ var formSubmitHandler = function(event){
     }
 };
 
+// display current weather
 var displayCurrentWeather = function(weather, searchTerm){
     // easy format to find certain weather
     cityName = weather.current;
@@ -101,24 +110,25 @@ var displayCurrentWeather = function(weather, searchTerm){
         var temp = document.createElement("p");
             temp.textContent = "Temp: " + cityName.temp + "°F";
 
-        var wind = document.createElement("p");
-            wind.textContent = "Wind: " + cityName.wind_speed + " MPH";
-
         var humidity = document.createElement("p");
             humidity.textContent = "Humidity: " + cityName.humidity + "%";
+
+        var wind = document.createElement("p");
+            wind.textContent = "Wind: " + cityName.wind_speed + " MPH";
 
         var uvIndex = document.createElement("p");
             var UVI = document.createElement("p");
                 UVI.textContent = cityName.uvi;
 
+                // if-else to see if UV index number is favorable, moderate, or severe
                 if(cityName.uvi >= 0 && cityName.uvi < 2){
-                    UVI.style = "border-radius: 1px; margin-left: 5px; background-color: green; text-align: center; color: white; padding-left: 10px; padding-right: 10px";
+                    UVI.style = "border-radius: 3px; margin-left: 5px; background-color: green; text-align: center; color: white; padding-left: 10px; padding-right: 10px";
                 }
                 else if(cityName.uvi >= 2 && cityName.uvi < 5){
-                    UVI.style = "border-radius: 1px; margin-left: 5px; background-color: yellow; text-align: center; color: black; padding-left: 10px; padding-right: 10px";
+                    UVI.style = "border-radius: 3px; margin-left: 5px; background-color: yellow; text-align: center; color: black; padding-left: 10px; padding-right: 10px";
                 }
                 else if(cityName.uvi >= 5){
-                    UVI.style = "border-radius: 1px; margin-left: 5px; background-color: red; text-align: center; color: white; padding-left: 10px; padding-right: 10px";
+                    UVI.style = "border-radius: 3px; margin-left: 5px; background-color: red; text-align: center; color: white; padding-left: 10px; padding-right: 10px";
                 }
 
             uvIndex.textContent = "UV Index:";
@@ -132,8 +142,8 @@ var displayCurrentWeather = function(weather, searchTerm){
     // append to container
     citySearchTerm.appendChild(currentWeatherIcon);
     weatherContainerEl.appendChild(temp);
-    weatherContainerEl.appendChild(wind);
     weatherContainerEl.appendChild(humidity);
+    weatherContainerEl.appendChild(wind);
     weatherContainerEl.append(uvIndex);
 
     // append container to the dom
@@ -142,7 +152,15 @@ var displayCurrentWeather = function(weather, searchTerm){
 
 };
 
+// display five days weather
 var displayFiveDays = function(weather){
+    // remove previous city weathers
+    temp = [];
+    wind = [];
+    humidity = [];
+    dayDate = [];
+    weatherIcon = [];
+
     // element for easy access
     var fiveD = weather.daily;
     console.log(fiveD);
@@ -166,7 +184,6 @@ var displayFiveDays = function(weather){
         dayDate[i] = document.createElement("p");
         dayDate[i].textContent = moment(now, "MM[/]DD[/]YYYY").add(i+1, "days").format("MM[/]DD[/]YYYY");
         dayDate[i].setAttribute("style", "font-weight: bold");
-
         // weather icons
         weatherIcon[i] = document.createElement("i");
         switch(fiveD[i].weather[0].main){
@@ -177,7 +194,7 @@ var displayFiveDays = function(weather){
                 weatherIcon[i].classList = "bi bi-cloud-drizzle";
                 break;
             case "Snow":
-                weatherIcon[i].classList = "bi bi-cloud-snow";
+                weatherIcon[i].classList = "bi bi-snow";
                 break;
             case "Clear":
                 weatherIcon[i].classList = "bi bi-brightness-low";
@@ -238,6 +255,31 @@ var displayFiveDays = function(weather){
         
 };
 
+// save city after displaying
+var saveCity = function(data, city){
+    var previousCity = city;
+    var previousData = data;
+    
+    // store city into local storage
+    localStorage.setItem(previousCity, JSON.stringify(previousData));
+    JSON.parse(localStorage.getItem(previousCity));
+    
+    // create button for each saved city
+    var cityBtn = document.createElement("button");
+    cityBtn.classList.add("cityBtn");
+    cityBtn.textContent = city;
+
+    // append each button
+    previousCityBtns.appendChild(cityBtn);
+    
+    // when city button is clicked, it displays it again
+    var savedCityBtn = function(){
+        getWeather(previousCity);
+    }
+    
+    cityBtn.addEventListener("click", savedCityBtn);
+
+};
 
 
 cityFormEl.addEventListener("submit", formSubmitHandler);

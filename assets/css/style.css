@@ -21,12 +21,20 @@ header p{
 }
 
 .submitBtn{
-    padding: 2px 80px;
     background-color: lightblue;
-    text-align: center;
-    text-decoration: none;
     border-radius: 4px;
     margin: 10px 0;
+    padding: 2px 80px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.cityBtn{
+    border-radius: 5px;
+    height: 30px;
+    margin: 5px auto;
+    text-decoration: none;
+    width: 210px;
 }
 
 .fiveDaysContainer{
@@ -36,7 +44,8 @@ header p{
 
 .day{
     color: white;
+    font-size: smaller;
     margin: 5px;
     padding: 10px;
-    font-size: smaller;
 }
+
