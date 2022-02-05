@@ -89,19 +89,19 @@ var displayCurrentWeather = function(weather, searchTerm){
         // add class to turn weatherIcon into an img
         switch(cityName.weather[0].main){
             case "Clouds":
-                currentWeatherIcon.classList = "bi bi-cloud";
+                currentWeatherIcon.classList = "bi bi-cloud-fill";
                 break;
             case "Rain":
-                currentWeatherIcon.classList = "bi bi-cloud-drizzle";
+                currentWeatherIcon.classList = "bi bi-cloud-rain-fill";
                 break;
             case "Snow":
-                currentWeatherIcon.classList = "bi bi-cloud-snow";
+                currentWeatherIcon.classList = "bi bi-cloud-snow-fill";
                 break;
             case "Clear":
-                currentWeatherIcon.classList = "bi bi-brightness-low";
+                currentWeatherIcon.classList = "bi bi-brightness-high-fill";
                 break;
             case "Fog":
-                currentWeatherIcon.classList = "bi bi-cloud-fog";
+                currentWeatherIcon.classList = "bi bi-cloud-fog-fill";
         }
 
     weatherContainerEl.textContent = "";
