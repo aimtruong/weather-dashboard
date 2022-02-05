@@ -8,6 +8,7 @@ A search engine to check the current weather and the next five days of any US ci
 * CSS
 * JavaScript
 * BootStrap
+* OpenWeatherMap API
 
 ## Website
 https://aimtruong.github.io/weather-dashboard/
