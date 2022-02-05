@@ -85,7 +85,7 @@ var displayCurrentWeather = function(weather, searchTerm){
     // easy format to find certain weather
     cityName = weather.current;
     var currentWeatherIcon = document.createElement("i");
-
+    console.log(cityName.weather[0].main);
         // add class to turn weatherIcon into an img
         switch(cityName.weather[0].main){
             case "Clouds":
@@ -102,6 +102,10 @@ var displayCurrentWeather = function(weather, searchTerm){
                 break;
             case "Fog":
                 currentWeatherIcon.classList = "bi bi-cloud-fog-fill";
+                break;
+            case "Mist":
+                currentWeatherIcon.classList = "bi bi-cloud-haze2-fill";
+                break;
         }
 
     weatherContainerEl.textContent = "";
@@ -207,6 +211,9 @@ var displayFiveDays = function(weather){
                 break;
             case "Fog":
                 weatherIcon[i].classList = "bi bi-cloud-fog-fill";
+                break;
+            case "Mist":
+                weatherIcon[i].classList = "bi bi-cloud-haze2-fill";
         }
 
         // append each
