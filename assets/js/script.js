@@ -169,6 +169,7 @@ var displayFiveDays = function(weather){
     forecast.innerHTML = "<br> <strong> 5-Day Forecast: <strong>";
     displayWeather.appendChild(forecast);
 
+    
     for(var i = 0; i < fiveD.length; i++){
         // variables for weather types
         temp[i] = document.createElement("p");
@@ -274,7 +275,9 @@ var saveCity = function(data, city){
     
     // when city button is clicked, it displays it again
     var savedCityBtn = function(){
+        // checks if city is already a button
         if(previousCity === city){
+            // removes if there is one but still goes through
             previousCityBtns.removeChild(cityBtn);
             getWeather(previousCity);
         }
