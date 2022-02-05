@@ -37,10 +37,11 @@ var thirdDayEl = document.querySelector("#thirdDayEl");
 var fourthDayEl = document.querySelector("#fourthDayEl");
 var fifthDayEl = document.querySelector("#fifthDayEl");
 
+
 // get city's weather info from api function
 var getWeather = function(city){
     // api to find city's lat and lon coords
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&appid=c48becc83b15142c299e329c55a89278";
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&appid=c48becc83b15142c299e329c55a89278";
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
             for(var i = 0; i < data.length; i++){
