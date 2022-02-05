@@ -274,7 +274,13 @@ var saveCity = function(data, city){
     
     // when city button is clicked, it displays it again
     var savedCityBtn = function(){
-        getWeather(previousCity);
+        if(previousCity === city){
+            previousCityBtns.removeChild(cityBtn);
+            getWeather(previousCity);
+        }
+        else{
+            getWeather(previousCity);
+        }
     }
     
     cityBtn.addEventListener("click", savedCityBtn);
